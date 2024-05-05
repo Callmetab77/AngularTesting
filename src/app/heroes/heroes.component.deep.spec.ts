@@ -42,4 +42,30 @@ describe('HeroesComponentDeep', () => {
       expect(heroComponentDES[i].componentInstance.hero).toEqual(HEROES[i])
     }
   });
+
+  // it(`should call heroService.deleteHero wehn Hero Components's delete button is click`, () => {
+  //   spyOn(fixture.componentInstance, 'delete');
+  //   mockHeroService.getHeroes.and.returnValue(of(HEROES));
+
+  //   fixture.detectChanges();
+
+  //   const heroComponents = fixture.debugElement.queryAll(By.directive(HeroComponent));
+  //   heroComponents[0].query(By.css('button'))
+  //     .triggerEventHandler('click', {stopPropagation: () => {}});
+
+  //   expect(fixture.componentInstance.delete).toHaveBeenCalledWith(HEROES[0]);
+  // });
+
+  //another way to unit test the child component by emitting event
+  it(`should call heroService.deleteHero wehn Hero Components's delete button is click`, () => {
+    spyOn(fixture.componentInstance, 'delete');
+    mockHeroService.getHeroes.and.returnValue(of(HEROES));
+
+    fixture.detectChanges();
+
+    const heroComponents = fixture.debugElement.queryAll(By.directive(HeroComponent));
+    (<HeroComponent>heroComponents[0].componentInstance).delete.emit(undefined);
+
+    expect(fixture.componentInstance.delete).toHaveBeenCalledWith(HEROES[0]);
+  });
 });
